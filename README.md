@@ -1,0 +1,2 @@
+# googleFormsRankedChoiceCalculator
+For RSS Elections
