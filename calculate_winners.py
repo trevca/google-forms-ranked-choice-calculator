@@ -7,10 +7,10 @@ def in_list(item, lisp):
             return True
     return False
 
-def find_first_winner(votes,position,still_in_it):   
+def find_first_winner(votes,position,still_in_it,total_number_of_candidates_for_everything):   
     number_moving_on=2
     length=len(votes[0][position])
-    ranking=np.zeros(length).tolist()
+    ranking=np.zeros(total_number_of_candidates_for_everything).tolist()
     for vote in votes:
         for i in range(0,length-1):
             if (in_list(vote[position][i],still_in_it)):
@@ -39,9 +39,9 @@ def find_first_winner(votes,position,still_in_it):
             second=ranking.index(second_most)
             still_in_it.append(second)
             ranking[second]=0
-        find_first_winner(votes,position,still_in_it)
+        find_first_winner(votes,position,still_in_it,total_number_of_candidates_for_everything)
 
 
 yippee=[{"President":[1,0],"VP":[0,2,1]},{"President":[0,1],"VP":[0,1,2]},{"President":[0,1],"VP":[0,1,2]}]
-print(find_first_winner(yippee,"President",[0,1]))
+print(find_first_winner(yippee,"President",[0,1]).3)
 
