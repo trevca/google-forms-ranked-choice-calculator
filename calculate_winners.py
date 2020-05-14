@@ -1,6 +1,14 @@
 #yowie zowie
 #would get fucked up if at some point no one wins there top choice
 import numpy as np
+from form_to_structure import voteInfo
+
+voting = voteInfo("candidate_preference.csv", "test_votes.csv")
+
+print(voting.getVotes())
+print(voting.getCandidates())
+print(voting.getLengths())
+
 
 def in_list(item, lisp):
     for value in lisp:
@@ -73,9 +81,9 @@ def remove_from_preferences (real_winners,preferences):
     candidates=list(preferences.keys())
     for position in positions_won:
         for candidate in candidates:
-            if in_list(position,preferences[candidate])
+            if in_list(position,preferences[candidate]):
                 preferences[candidate].remove(position)
-    for candidate in candidates_won
+    for candidate in candidates_won:
         preferences[candidate]=[]
 
 def remove_from_candidates (reaL_winners,candidates):
@@ -91,7 +99,7 @@ def remove_from_candidates (reaL_winners,candidates):
 
 def removal(real_winners,preferences,candidates):
     remove_from_preferences (real_winners,preferences)
-    remove_from_candidates (reaL_winners,candidates)
+    remove_from_candidates (real_winners,candidates)
 
 def real_winner(winners,preferences,real_winners,candidates):
     new_real_winners={}
@@ -99,30 +107,24 @@ def real_winner(winners,preferences,real_winners,candidates):
         if preferences[winners[position]]==position:
             new_real_winners[position]=winners[position]
     real_winners.update(new_real_winners)
-    if len(new_real_winners)==0
+    if len(new_real_winners)==0:
         return real_winners #kinda running on assumption that at least someone won their first position, otherwise gets stuck in infinite loop
     else:
         removal(new_real_winners,preferences,candidates)
         return real_winner(winners,preferences,new_real_winners,candidates)
 
-def find_winners(preferences,candidates,real_winners,preferences):
+def find_winners(votes,candidates,real_winners,preferences):
     if len(real_winners)==position_number:
         return real_winners
     else:
         winners=get_first_winners(votes,candidates)
-        real_winner(winners,preferenes,reaL_winners,candidates)
-        return find_winners(preferences,preferences,real_winners,candidates)
+        real_winner(winners,preferences,real_winners,candidates)
+        return find_winners(votes,candidates,real_winners,preferences)
 
 votes=[{"President":["Trevor","Ryan","Kenton"],"Vice President":["Ryan","Trevor","Kenton"]},{"President":["Ryan","Trevor","Kenton"],"Vice President":["Ryan","Trevor","Kenton"]},{"President":["Kenton","Ryan","Trevor"],"Vice President":["Kenton","Trevor","Ryan"]},{"President":["Trevor","Ryan","Kenton"],"Vice President":["Trevor","Ryan","Kenton"]},{"President":["Ryan","Trevor","Kenton"],"Vice President":["Kenton","Trevor","Ryan"]}]
 candidates={"President":["Trevor","Ryan","Kenton"],"Vice President":["Ryan","Trevor","Kenton"]}
-preferences=["Trevor":["President","Vice President"],"Kenton":["President","Vice President"],"Ryan":["Vice President","President"]}
+preferences={"Trevor":["President","Vice President"],"Kenton":["President","Vice President"],"Ryan":["Vice President","President"]}
 position_number=len(candidates)
 first_winners=get_first_winners(votes,candidates)
 real_winners={}
 real_winners=real_winner(first_winners,preferences,real_winners,candidates)
-
-re run elections
-get_all winners who won first choice
-real_winners
-run until: len(real_winners)==position_number
-
