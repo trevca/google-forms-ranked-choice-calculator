@@ -12,7 +12,7 @@ def rev_search_dict(dictionary,value):
     val_list=list(dictionary.values())
     return key_list[val_list.index(value)]
 
-def find_first_winner(votes,position,still_in_it):   
+def winner(votes,position,still_in_it):   
     number_moving_on=2
     length=len(votes[0][position])
     candidate_key={}
@@ -57,10 +57,18 @@ def find_first_winner(votes,position,still_in_it):
             new_still_in_it[position].append(second)
         if len(still_in_it[position])==len(new_still_in_it[position]):
             return "Tied"
-        return find_first_winner(votes,position,new_still_in_it)
+        return winner(votes,position,new_still_in_it)
+
+def get_first_winners (votes,candidates):
+    first_winners={}
+    for position in list(candidates.keys()):
+        win=winner(votes,position,candidates)
+        first_winners[position]=win
+    return first_winners    
 
 
-votes=[{"President":["Trevor","Ryan","Kenton"]},{"President":["Ryan","Trevor","Kenton"]},{"President":["Kenton","Ryan","Trevor"]},{"President":["Trevor","Ryan","Kenton"]},{"President":["Ryan","Trevor","Kenton"]}]
-candidates={"President":["Trevor","Ryan","Kenton"]}
-print(find_first_winner(votes,"President",candidates))
+votes=[{"President":["Trevor","Ryan","Kenton"],"Vice President":["Ryan","Trevor","Kenton"]},{"President":["Ryan","Trevor","Kenton"],"Vice President":["Ryan","Trevor","Kenton"]},{"President":["Kenton","Ryan","Trevor"],"Vice President":["Kenton","Trevor","Ryan"]},{"President":["Trevor","Ryan","Kenton"],"Vice President":["Trevor","Ryan","Kenton"]},{"President":["Ryan","Trevor","Kenton"],"Vice President":["Kenton","Trevor","Ryan"]}]
+candidates={"President":["Trevor","Ryan","Kenton"],"Vice President":["Ryan","Trevor","Kenton"]}
+print(get_first_winners(votes,candidates))
+
 
