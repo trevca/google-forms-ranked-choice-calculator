@@ -1,4 +1,5 @@
 #yowie zowie
+#would get fucked up if at some point no one wins there top choice
 import numpy as np
 
 def in_list(item, lisp):
@@ -66,9 +67,51 @@ def get_first_winners (votes,candidates):
         first_winners[position]=win
     return first_winners    
 
+def real_winner(winners,preferences,real_winners,candidates):
+    new_real_winners=real_winners.copy()
+    for position in list(winners.keys()):
+        if preferences[winners[position]]==position:
+            new_real_winners[position]=winners[position]
+    if len(real_winners)==len(new_real_winners)
+        return new_real_winners #kinda running on assumption that at least someone won their first position, otherwise gets stuck in infinite loop
+    else:
+        removal(new_real_winners,preferences,candidates)
+        return real_winner(winners,preferences,new_real_winners,candidates)
+
+def remove_won_positions_and_won_people_from_preferences (real_winners,preferences):
+    positions_won=list(real_winners.keys())
+    candidates_won=list(real_winners.values())
+    candidates=list(preferences.keys())
+    for position in positions_won:
+        for candidate in candidates:
+            if in_list(position,preferences[candidate])
+                preferences[candidate].remove(position)
+    for candidate in candidates_won
+        preferences[candidate]=[]
+
+def remove_real_winners_from_candidates (reaL_winners,candidates):
+    candidates_won=list(real_winners.values())
+    positions=list(candidates.keys())
+    for candidate in candidates_won:
+        for position in positions:
+            if in_list(candidate,candidates[position]):
+                candidates[position].remove(candidate)
+
+def removal(real_winners,preferences,candidates):
+    remove_won_positions_and_won_people_preferences (real_winners,preferences)
+    remove_real_winners_from_candidates (reaL_winners,candidates)
+
 
 votes=[{"President":["Trevor","Ryan","Kenton"],"Vice President":["Ryan","Trevor","Kenton"]},{"President":["Ryan","Trevor","Kenton"],"Vice President":["Ryan","Trevor","Kenton"]},{"President":["Kenton","Ryan","Trevor"],"Vice President":["Kenton","Trevor","Ryan"]},{"President":["Trevor","Ryan","Kenton"],"Vice President":["Trevor","Ryan","Kenton"]},{"President":["Ryan","Trevor","Kenton"],"Vice President":["Kenton","Trevor","Ryan"]}]
 candidates={"President":["Trevor","Ryan","Kenton"],"Vice President":["Ryan","Trevor","Kenton"]}
-print(get_first_winners(votes,candidates))
+preferences=["Trevor":["President","Vice President"],"Kenton":["President","Vice President"],"Ryan":["Vice President","President"]}
+first_winners=get_first_winners(votes,candidates)
+real_winners={}
+real_winners=real_winner(first_winners,preferences,real_winners,candidates)
+
+re run elections
+get_all winners who won first choice
+real_winners
+
 
 
