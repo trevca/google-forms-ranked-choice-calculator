@@ -1,14 +1,6 @@
 #yowie zowie
 #would get fucked up if at some point no one wins there top choice
 import numpy as np
-from form_to_structure import voteInfo
-
-voting = voteInfo("candidate_preference.csv", "test_votes.csv")
-
-print(voting.getVotes())
-print(voting.getCandidates())
-print(voting.getLengths())
-
 
 def in_list(item, lisp):
     for value in lisp:
@@ -75,9 +67,9 @@ def get_first_winners (votes,candidates):
         first_winners[position]=win
     return first_winners    
 
-def remove_from_preferences (real_winners,preferences):
-    positions_won=list(real_winners.keys())
-    candidates_won=list(real_winners.values())
+def remove_from_preferences (new_real_winners,preferences):
+    positions_won=list(new_real_winners.keys())
+    candidates_won=list(new_real_winners.values())
     candidates=list(preferences.keys())
     for position in positions_won:
         for candidate in candidates:
@@ -86,26 +78,31 @@ def remove_from_preferences (real_winners,preferences):
     for candidate in candidates_won:
         preferences[candidate]=[]
 
-def remove_from_candidates (reaL_winners,candidates):
-    candidates_won=list(real_winners.values())
-    positions_won=list(real_winners.keys())
+def remove_from_candidates (new_real_winners,candidates):
+    candidates_won=list(new_real_winners.values())
+    positions_won=list(new_real_winners.keys())
     positions=list(candidates.keys())
     for candidate in candidates_won:
         for position in positions:
             if in_list(candidate,candidates[position]):
                 candidates[position].remove(candidate)
     for position in positions_won:
-        candidate.pop(position)
+        candidates.pop(position)
 
-def removal(real_winners,preferences,candidates):
-    remove_from_preferences (real_winners,preferences)
-    remove_from_candidates (real_winners,candidates)
+def removal(new_real_winners,preferences,candidates):
+    remove_from_preferences (new_real_winners,preferences)
+    remove_from_candidates (new_real_winners,candidates)
 
 def real_winner(winners,preferences,real_winners,candidates):
     new_real_winners={}
     for position in list(winners.keys()):
-        if preferences[winners[position]]==position:
+        if preferences[winners[position]][0]==position:
             new_real_winners[position]=winners[position]
+            name=winners[position]
+            winners.pop(position)
+            for pos in list(winners.keys()): #if they won anothe position too remove that position from winners
+                if winners[pos]==name:
+                    winners.pop(pos)
     real_winners.update(new_real_winners)
     if len(new_real_winners)==0:
         return real_winners #kinda running on assumption that at least someone won their first position, otherwise gets stuck in infinite loop
@@ -127,4 +124,5 @@ preferences={"Trevor":["President","Vice President"],"Kenton":["President","Vice
 position_number=len(candidates)
 first_winners=get_first_winners(votes,candidates)
 real_winners={}
-real_winners=real_winner(first_winners,preferences,real_winners,candidates)
+find_winners(votes,candidates,real_winners,preferences)
+print(real_winners)
