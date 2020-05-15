@@ -96,13 +96,14 @@ def removal(new_real_winners,preferences,candidates):
 def real_winner(winners,preferences,real_winners,candidates):
     new_real_winners={}
     for position in list(winners.keys()):
-        if preferences[winners[position]][0]==position:
-            new_real_winners[position]=winners[position]
-            name=winners[position]
-            winners.pop(position)
-            for pos in list(winners.keys()): #if they won anothe position too remove that position from winners
-                if winners[pos]==name:
-                    winners.pop(pos)
+        if winners[position]!="Tie":
+            if preferences[winners[position]][0]==position:
+                new_real_winners[position]=winners[position]
+                name=winners[position]
+                winners.pop(position)
+                for pos in list(winners.keys()): #if they won anothe position too remove that position from winners
+                    if winners[pos]==name:
+                        winners.pop(pos)
     real_winners.update(new_real_winners)
     if len(new_real_winners)==0:
         return real_winners #kinda running on assumption that at least someone won their first position, otherwise gets stuck in infinite loop
