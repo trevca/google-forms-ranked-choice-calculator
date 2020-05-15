@@ -7,9 +7,12 @@ class voteInfo:
         self.preferences = {}
         for candidate in candidate_raw:
             self.preferences[candidate[0]] = []
-            self.preferences[candidate[0]].append(candidate[1])
-            self.preferences[candidate[0]].append(candidate[2])
-            self.preferences[candidate[0]].append(candidate[3])
+            if not pd.isna(candidate[1]):
+                self.preferences[candidate[0]].append(candidate[1])
+            if not pd.isna(candidate[2]):
+                self.preferences[candidate[0]].append(candidate[2])
+            if not pd.isna(candidate[3]):
+                self.preferences[candidate[0]].append(candidate[3])
 
         self.lengths = {"President": 1, "Vice President": 1, "Corporate Liaison": 6, "Secretary": 9, "Treasurer": 3, "UC Liaison": 2, 
           "Director of Community Service": 3, "Director of Outreach": 2, "Director of Public Relations": 5, "Webmaster": 3}
@@ -26,17 +29,11 @@ class voteInfo:
                 dictionary[position] = vote[currPartition:nextPartition].tolist()
             self.votes.append(dictionary)
         
-        candidate_preferences = self.preferences
-        candidates = {i: [] for i in self.lengths}
+        self.candidates = {i: [] for i in self.lengths}
         for name in self.preferences:
-            cp = []
             for position in self.preferences[name]:
-                if not pd.isna(position):
-                    cp.append(position)
-                    candidates[position].append(name)
-            self.preferences[name] = cp
-        self.candidates = candidates
-
+                    self.candidates[position].append(name)
+                    
     def getVotes(self):
         return self.votes
 
