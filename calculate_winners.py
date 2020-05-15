@@ -1,6 +1,7 @@
 #yowie zowie
 #would get fucked up if at some point no one wins there top choice
 import numpy as np
+from form_to_structure import voteInfo
 
 def in_list(item, lisp):
     for value in lisp:
@@ -119,10 +120,19 @@ def find_winners(votes,candidates,real_winners,preferences):
         real_winner(winners,preferences,real_winners,candidates)
         return find_winners(votes,candidates,real_winners,preferences)
 
+
+
 votes=[{"President":["Trevor","Ryan","Kenton"],"Vice President":["Ryan","Trevor","Kenton"]},{"President":["Ryan","Trevor","Kenton"],"Vice President":["Ryan","Trevor","Kenton"]},{"President":["Kenton","Ryan","Trevor"],"Vice President":["Kenton","Trevor","Ryan"]},{"President":["Trevor","Ryan","Kenton"],"Vice President":["Trevor","Ryan","Kenton"]},{"President":["Ryan","Trevor","Kenton"],"Vice President":["Kenton","Trevor","Ryan"]}]
 candidates={"President":["Trevor","Ryan","Kenton"],"Vice President":["Ryan","Trevor","Kenton"]}
 preferences={"Trevor":["President","Vice President"],"Kenton":["President","Vice President"],"Ryan":["Vice President","President"]}
 position_number=len(candidates)
+
+voting = voteInfo("candidate_preference.csv", "test_votes.csv")
+
+print(voting.getVotes())
+print(voting.getCandidates())
+print(voting.getLengths())
+
 first_winners=get_first_winners(votes,candidates)
 real_winners={}
 find_winners(votes,candidates,real_winners,preferences)
