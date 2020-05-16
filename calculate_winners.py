@@ -37,6 +37,7 @@ def winner(votes,position,still_in_it):
     if most>(len(votes)/2):
         return candidate_key.get(ranking.index(most))
     elif len(still_in_it[position])==2:
+        print("Tie")
         return "Tie"
     else:
         second_most=scores[1]
@@ -58,6 +59,7 @@ def winner(votes,position,still_in_it):
             second=candidate_key[second]
             new_still_in_it[position].append(second)
         if len(still_in_it[position])==len(new_still_in_it[position]):
+            print("Tie")
             return "Tie"
         return winner(votes,position,new_still_in_it)
 
