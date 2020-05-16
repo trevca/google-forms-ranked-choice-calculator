@@ -24,7 +24,7 @@ def winner(votes,position,still_in_it):
         i+=1
     ranking=np.zeros(len(candidate_key)).tolist()
     for vote in votes:
-        for i in range(0,length-1):
+        for i in range(0,length):
             if in_list(vote[position][i],still_in_it[position]):
                 choice_name=vote[position][i]
                 choice_index=rev_search_dict(candidate_key,choice_name)
@@ -37,6 +37,7 @@ def winner(votes,position,still_in_it):
     if most>(len(votes)/2):
         return candidate_key.get(ranking.index(most))
     elif len(still_in_it[position])==2:
+        print("Tie")
         return "Tie"
     else:
         second_most=scores[1]
@@ -58,6 +59,7 @@ def winner(votes,position,still_in_it):
             second=candidate_key[second]
             new_still_in_it[position].append(second)
         if len(still_in_it[position])==len(new_still_in_it[position]):
+            print("Tie")
             return "Tie"
         return winner(votes,position,new_still_in_it)
 
@@ -129,11 +131,10 @@ position_number=len(candidates)
 
 voting = voteInfo("candidate_preference.csv", "test_votes.csv")
 
-print(voting.getVotes())
-print(voting.getCandidates())
-print(voting.getLengths())
+votes=voting.getVotes()
+candidates=voting.getCandidates()
+preferences=voting.getPreferences()
 
-first_winners=get_first_winners(votes,candidates)
 real_winners={}
 find_winners(votes,candidates,real_winners,preferences)
 print(real_winners)
